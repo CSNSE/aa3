@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "aa338a3a12a": {}
+      },
+      "api": {
+        "aa3": {}
+      },
+      "storage": {
+        "aa3store": {}
       }
     }
   }

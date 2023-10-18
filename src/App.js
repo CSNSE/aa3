@@ -7,6 +7,7 @@ import {
   Flex,
   Heading,
   Image,
+  TableBody,
   Text,
   TextField,
   View,
@@ -71,7 +72,7 @@ const App = ({ signOut }) => {
 
   return (
     <View className="App">
-      <Heading level={1}>My Notes App</Heading>
+      <Heading level={4}>Mr. Headrick</Heading>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="row" justifyContent="center">
           <TextField
@@ -101,16 +102,24 @@ const App = ({ signOut }) => {
           </Button>
         </Flex>
       </View>
-      <Heading level={2}>Current Notes</Heading>
+      <Heading level={5}>Very Short Sayings</Heading>
+      <table border="0.5px" align="center"><tbody><tr><td>
+      <p><Text as="strong" color={'#666699'}>More about this:</Text></p>
+      <ul>
+      <li>All of my notes are short quotes found online.</li>
+      <li>Notice the note labels show where each was created!</li>
+      <li>If you want to see a better site, go <a href="https://master.dmm48zw3bnrws.amplifyapp.com/">Dylan's</a>.</li>
+      </ul>
       <View margin="3rem 0">
       {notes.map((note) => (
   <Flex
     key={note.id || note.name}
     direction="row"
-    justifyContent="center"
-    alignItems="center"
+    justifyContent="left"
+    alignItems="left"
   >
-    <Text as="strong" fontWeight={700}>
+    
+    <Text as="strong" fontSize={12} color={'#666699'}>
       {note.name}
     </Text>
     <Text as="span">{note.description}</Text>
@@ -118,15 +127,17 @@ const App = ({ signOut }) => {
       <Image
         src={note.image}
         alt={`visual aid for ${notes.name}`}
-        style={{ width: 120 }}
+        style={{ width: 80 }}
       />
     )}
-    <Button variation="link" onClick={() => deleteNote(note)}>
-      Delete note
-    </Button>
+<Button variation="link" onClick={() => deleteNote(note)}>
+<Text as="strong" fontSize={10} color={'#ff6600'}>
+      Delete
+    </Text>
+</Button>
   </Flex>
 ))}
-      </View>
+    </View></td></tr></tbody></table>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );

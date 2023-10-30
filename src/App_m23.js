@@ -7,12 +7,7 @@ import {
   Flex,
   Heading,
   Image,
-  Table,
   TableBody,
-  Link,
-  TableHead,
-  TableRow,
-  TableCell,
   Text,
   TextField,
   View,
@@ -34,10 +29,6 @@ const App = ({ signOut, user }) => {
   async function fetchNotes() {
     const apiData = await API.graphql({ query: listNotes });
     const notesFromAPI = apiData.data.listNotes.items;
-    console.log("hi")
-    console.log(user.attributes.email.substring(0,user.attributes.email.indexOf("@")))
-    console.log(user.username)
-    console.log(user.attributes.id)
     await Promise.all(
       notesFromAPI.map(async (note) => {
         if (note.image) {
@@ -55,12 +46,10 @@ const App = ({ signOut, user }) => {
     const form = new FormData(event.target);
     const image = form.get("image");
     const data = {
-      name: form.get("name"),
+      name: user.username,//form.get("name"),
       description: form.get("description"),
       image: image.name,
-      author: user.attributes.email,
     };
-
     if (!!data.image) await Storage.put(data.name, image);
     await API.graphql({
       query: createNoteMutation,
@@ -83,56 +72,13 @@ const App = ({ signOut, user }) => {
 
   return (
     <View className="App">
-      <Heading level={4} textAlign={"center"}>Advanced Topics Software Engineering</Heading>
-      <View margin="3rem 0">
-      
-<Table><TableBody>{notes.map((note) => (
-<TableRow key={note.id || note.name}>
-    <TableCell>
-    <Text as="strong" fontSize={12} color={'#666699'}>
-    {note.author.substring(0,note.author.indexOf("@"))}
-    </Text></TableCell><TableCell><Link
- href={note.description}
- color="#007EB9"
- isExternal={true}
->
- {note.name}
-</Link>
-    </TableCell><TableCell>
-    {note.image && (
-      <Image
-        src={note.image}
-        alt={`visual aid for ${notes.name}`}
-        style={{ width: 80 }}
-      />
-    )}</TableCell><TableCell>
-<Button variation="link" onClick={() => deleteNote(note)}>
-<Text as="strong" fontSize={10} color={'#ff6600'}>
-      Delete
-    </Text>
-</Button></TableCell></TableRow>))}
-</TableBody></Table>
-<hr/>
-<p><Text as="strong" color={'#666699'}>More about this:</Text></p>
-      <ul>
-      <li>You must use your CSN email to verify your sign-in!</li>
-      <li>Post your site name and url here.</li>
-      <li>Upload an image (yes, it can be a meme!)</li>
-      </ul>
-<View as="form" margin="3rem 0" onSubmit={createNote}>
+      <Heading level={4}>Mr. Headrick</Heading>
+      <View as="form" margin="3rem 0" onSubmit={createNote}>
         <Flex direction="row" justifyContent="center">
           <TextField
             name="name"
-            placeholder="Site Name"
-            label="What you call your site."
-            labelHidden
-            variation="quiet"
-            required
-          />
-          <TextField
-            name="description"
-            placeholder="URL"
-            label="URL with https://"
+            placeholder="Note Name"
+            label="Note Name"
             labelHidden
             variation="quiet"
             required
@@ -143,12 +89,55 @@ const App = ({ signOut, user }) => {
             type="file"
             style={{ alignSelf: "end" }}
           />
+          <TextField
+            name="description"
+            placeholder="Note Description"
+            label="Note Description"
+            labelHidden
+            variation="quiet"
+            required
+          />
           <Button type="submit" variation="primary">
-            Create
+            Create Note
           </Button>
         </Flex>
       </View>
-    </View>
+      <Heading level={5}>Very Short Sayings</Heading>
+      <table border="0.5px" align="center"><tbody><tr><td>
+      <p><Text as="strong" color={'#666699'}>More about this:</Text></p>
+      <ul>
+      <li>All of my notes are short quotes found online.</li>
+      <li>Notice the note labels show where each was created!</li>
+      <li>If you want to see a better site, go <a href="https://master.dmm48zw3bnrws.amplifyapp.com/">Dylan's</a>.</li>
+      </ul>
+      <View margin="3rem 0">
+      {notes.map((note) => (
+  <Flex
+    key={note.id || note.name}
+    direction="row"
+    justifyContent="left"
+    alignItems="left"
+  >
+    
+    <Text as="strong" fontSize={12} color={'#666699'}>
+      {note.name}
+    </Text>
+    <Text as="span">{note.description}</Text>
+    {note.image && (
+      <Image
+        src={note.image}
+        alt={`visual aid for ${notes.name}`}
+        style={{ width: 80 }}
+      />
+    )}
+<Button variation="link" onClick={() => deleteNote(note)}>
+<Text as="strong" fontSize={10} color={'#ff6600'}>
+      Delete
+    </Text>
+</Button>
+  </Flex>
+))}
+    </View></td></tr></tbody></table>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
   );

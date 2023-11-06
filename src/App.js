@@ -70,7 +70,6 @@ const App = ({ signOut, user }) => {
     event.target.reset();
   }
   
-
   async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
@@ -82,10 +81,9 @@ const App = ({ signOut, user }) => {
   }
 
   return (
-    <View className="App">
-      <Heading level={4} textAlign={"center"}>Advanced Topics Software Engineering</Heading>
-      <View margin="3rem 0">
-      
+<View className="App">
+  <Heading level={4} textAlign={"center"}>Advanced Topics Software Engineering</Heading>
+<View margin="3rem 0">
 <Table><TableBody>{notes.map((note) => (
 <TableRow key={note.id || note.name}>
     <TableCell>
@@ -107,9 +105,7 @@ const App = ({ signOut, user }) => {
       />
     )}</TableCell><TableCell>
 <Button variation="link" onClick={() => deleteNote(note)}>
-<Text as="strong" fontSize={10} color={'#ff6600'}>
-      Delete
-    </Text>
+<Text as="strong" fontSize={10} color={'#ff6600'}>Delete</Text>
 </Button></TableCell></TableRow>))}
 </TableBody></Table>
 <hr/>

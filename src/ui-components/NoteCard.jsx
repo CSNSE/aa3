@@ -21,7 +21,7 @@ export default function NoteCard(props) {
   });
   const frameOnClick = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    if(user.attributes.email=note.author){
+    if(user.attributes.email===note.author){
     await API.graphql({
       query: deleteNote.replaceAll("__typename", ""),
       variables: {

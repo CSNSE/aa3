@@ -3,9 +3,11 @@ import { listNotes } from "../graphql/queries";
 import NoteCard from "./NoteCard";
 import { getOverrideProps } from "./utils";
 import { Collection, Pagination, Placeholder } from "@aws-amplify/ui-react";
+import { Auth } from "@aws-amplify/auth";
 import { API, Storage } from "aws-amplify";
 const nextToken = {};
 const apiCache = {};
+
 export default function NoteCollection(props) {
   const { items: itemsProp, overrideItems, overrides, ...rest } = props;
   const [pageIndex, setPageIndex] = React.useState(1);
@@ -54,11 +56,13 @@ export default function NoteCollection(props) {
       newCache.push(...result.items);
       newNext = result.nextToken;
       const notesFromAPI = result.items
+      const user = await Auth.currentAuthenticatedUser();
        await Promise.all(
               notesFromAPI.map(async (note) => {
                 if (note.image) {
                   const url = await Storage.get(note.image);
                   //console.log(note.image + "  " + note.name);
+                  console.log(user.attributes.email + "  " + note.author);
                   note.image = url;
                   //console.log(url);
                 }

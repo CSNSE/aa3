@@ -7,17 +7,18 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps, useNavigateAction } from "./utils";
-import { Flex, Icon, Image, Text, View } from "@aws-amplify/ui-react";
+import { Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function Nav(props) {
   const { overrides, ...rest } = props;
-  const imageOnClick = useNavigateAction({ type: "url", url: "/new" });
+  const frameOnClick = useNavigateAction({ type: "url", url: "/new" });
+  const OnClick = useNavigateAction({ type: "url", url: "/" });
   return (
     <Flex
       gap="48px"
       direction="row"
       width="320px"
       height="60px"
-      justifyContent="center"
+      justifyContent="flex-end"
       alignItems="center"
       position="relative"
       padding="24px 32px 24px 32px"
@@ -37,9 +38,6 @@ export default function Nav(props) {
         borderRadius="160px"
         padding="0px 0px 0px 0px"
         objectFit="cover"
-        onClick={() => {
-          imageOnClick();
-        }}
         {...getOverrideProps(overrides, "image")}
       ></Image>
       <Flex
@@ -77,66 +75,48 @@ export default function Nav(props) {
           {...getOverrideProps(overrides, "text")}
         ></Text>
       </Flex>
-      <View
-        width="12px"
-        height="12px"
-        display="block"
-        gap="unset"
-        alignItems="unset"
-        justifyContent="unset"
+      <Flex
+        gap="10px"
+        direction="column"
+        width="unset"
+        height="24px"
+        justifyContent="space-between"
+        alignItems="center"
         overflow="hidden"
         shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
+        onClick={() => {
+          frameOnClick();
+        }}
         {...getOverrideProps(overrides, "Frame")}
       >
-        <Icon
-          width="11px"
-          height="0px"
-          viewBox={{ minX: 0, minY: 0, width: 11, height: 1 }}
-          paths={[
-            {
-              d: "M11 -0.5L0 -0.5L0 0.5L11 0.5L11 -0.5Z",
-              stroke: "rgba(0,0,0,1)",
-              fillRule: "nonzero",
-              strokeWidth: 1,
-            },
-          ]}
+        <Text
+          fontFamily="Inter"
+          fontSize="24px"
+          fontWeight="400"
+          color="rgba(0,0,0,1)"
+          lineHeight="24px"
+          textAlign="center"
           display="block"
+          direction="column"
+          justifyContent="unset"
+          letterSpacing="0.09px"
+          width="unset"
+          height="unset"
           gap="unset"
           alignItems="unset"
-          justifyContent="unset"
-          position="absolute"
-          top="50%"
-          bottom="50%"
-          left="4.17%"
-          right="4.17%"
-          {...getOverrideProps(overrides, "Vector407260")}
-        ></Icon>
-        <Icon
-          width="0px"
-          height="11px"
-          viewBox={{ minX: 0, minY: 0, width: 1, height: 11 }}
-          paths={[
-            {
-              d: "M-0.5 0L-0.5 11L0.5 11L0.5 0L-0.5 0Z",
-              stroke: "rgba(0,0,0,1)",
-              fillRule: "nonzero",
-              strokeWidth: 1,
-            },
-          ]}
-          display="block"
-          gap="unset"
-          alignItems="unset"
-          justifyContent="unset"
-          position="absolute"
-          top="4.17%"
-          bottom="4.17%"
-          left="50%"
-          right="50%"
-          {...getOverrideProps(overrides, "Vector407261")}
-        ></Icon>
-      </View>
+          shrink="0"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          whiteSpace="pre-wrap"
+          children="➕"
+          onClick={() => {
+            OnClick();
+          }}
+          {...getOverrideProps(overrides, "\u2795")}
+        ></Text>
+      </Flex>
     </Flex>
   );
 }

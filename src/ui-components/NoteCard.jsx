@@ -6,10 +6,34 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { getOverrideProps } from "./utils";
+import { getOverrideProps, useNavigateAction } from "./utils";
+import { Auth } from "@aws-amplify/auth";
+import { API } from "aws-amplify";
+import { deleteNote } from "../graphql/mutations";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
+import MyIcon from "./MyIcon";
 export default function NoteCard(props) {
   const { note, overrides, ...rest } = props;
+  const sitenameOnClick = useNavigateAction({
+    target: "_blank",
+    type: "url",
+    url: note?.description,
+  });
+  const frameOnClick = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    if(user.attributes.email=note.author){
+    await API.graphql({
+      query: deleteNote.replaceAll("__typename", ""),
+      variables: {
+        input: {
+          id: note?.id,
+        },
+      },
+    });
+    frameOnMouseUp(); //MrH
+  }
+  };
+  const frameOnMouseUp = useNavigateAction({ type: "url", url: "/" });
   return (
     <Flex
       gap="0"
@@ -43,7 +67,7 @@ export default function NoteCard(props) {
         gap="16px"
         direction="column"
         width="unset"
-        height="unset"
+        height="124px"
         justifyContent="flex-start"
         alignItems="flex-start"
         shrink="0"
@@ -67,7 +91,7 @@ export default function NoteCard(props) {
         >
           <Text
             fontFamily="Inter"
-            fontSize="16px"
+            fontSize="20px"
             fontWeight="700"
             color="rgba(13,26,38,1)"
             lineHeight="20px"
@@ -85,30 +109,10 @@ export default function NoteCard(props) {
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
             children={note?.name}
+            onClick={() => {
+              sitenameOnClick();
+            }}
             {...getOverrideProps(overrides, "site name")}
-          ></Text>
-          <Text
-            fontFamily="Inter"
-            fontSize="16px"
-            fontWeight="400"
-            color="rgba(13,26,38,1)"
-            lineHeight="24px"
-            textAlign="left"
-            display="block"
-            direction="column"
-            justifyContent="unset"
-            letterSpacing="0.01px"
-            width="unset"
-            height="unset"
-            gap="unset"
-            alignItems="unset"
-            shrink="0"
-            alignSelf="stretch"
-            position="relative"
-            padding="0px 0px 0px 0px"
-            whiteSpace="pre-wrap"
-            children={note?.description}
-            {...getOverrideProps(overrides, "address")}
           ></Text>
           <Text
             fontFamily="Inter"
@@ -132,6 +136,40 @@ export default function NoteCard(props) {
             children={note?.author}
             {...getOverrideProps(overrides, "author")}
           ></Text>
+        </Flex>
+        <Flex
+          gap="0"
+          direction="row"
+          width="unset"
+          height="24px"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          overflow="hidden"
+          shrink="0"
+          position="relative"
+          padding="0px 0px 0px 0px"
+          onClick={() => {
+            frameOnClick();
+          }}
+          // onMouseUp={() => {
+          //   frameOnMouseUp();
+          // }}
+          {...getOverrideProps(overrides, "Frame")}
+        >
+          <MyIcon
+            width="24px"
+            height="24px"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            overflow="hidden"
+            shrink="0"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            type="delete"
+            {...getOverrideProps(overrides, "MyIcon")}
+          ></MyIcon>
         </Flex>
       </Flex>
     </Flex>

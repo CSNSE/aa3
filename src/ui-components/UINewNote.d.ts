@@ -26,11 +26,11 @@ export declare type UINewNoteOverridesProps = {
     Create?: PrimitiveOverrideProps<TextProps>;
     Divider40472417?: PrimitiveOverrideProps<DividerProps>;
     Profile?: PrimitiveOverrideProps<FlexProps>;
-    image?: PrimitiveOverrideProps<ImageProps>;
+    image40472419?: PrimitiveOverrideProps<ImageProps>;
     Forms?: PrimitiveOverrideProps<FlexProps>;
     TextField40472422?: PrimitiveOverrideProps<TextFieldProps>;
     TextField40472423?: PrimitiveOverrideProps<TextFieldProps>;
-    TextField40472424?: PrimitiveOverrideProps<TextFieldProps>;
+    image41461946?: PrimitiveOverrideProps<TextProps>;
     Divider40472425?: PrimitiveOverrideProps<DividerProps>;
     Button?: PrimitiveOverrideProps<ButtonProps>;
 } & EscapeHatchProps;

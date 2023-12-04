@@ -7,9 +7,16 @@
 /* eslint-disable */
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
-import { fetchByPath, getOverrideProps, validateField } from "./utils";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
+import {
+  fetchByPath,
+  getOverrideProps,
+  processFile,
+  validateField,
+} from "./utils";
 import { API } from "aws-amplify";
 import { createNote } from "../graphql/mutations";
+import { Field } from "@aws-amplify/ui-react/internal";
 export default function NoteCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -24,28 +31,24 @@ export default function NoteCreateForm(props) {
   const initialValues = {
     name: "",
     description: "",
-    image: "",
-    author: "",
+    image: undefined,
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [image, setImage] = React.useState(initialValues.image);
-  const [author, setAuthor] = React.useState(initialValues.author);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setDescription(initialValues.description);
     setImage(initialValues.image);
-    setAuthor(initialValues.author);
     setErrors({});
   };
   const validations = {
     name: [{ type: "Required" }],
     description: [],
     image: [],
-    author: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -76,7 +79,6 @@ export default function NoteCreateForm(props) {
           name,
           description,
           image,
-          author,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -142,7 +144,6 @@ export default function NoteCreateForm(props) {
               name: value,
               description,
               image,
-              author,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -169,7 +170,6 @@ export default function NoteCreateForm(props) {
               name,
               description: value,
               image,
-              author,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -184,60 +184,53 @@ export default function NoteCreateForm(props) {
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <TextField
-        label="Image"
-        isRequired={false}
-        isReadOnly={false}
-        value={image}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              image: value,
-              author,
-            };
-            const result = onChange(modelFields);
-            value = result?.image ?? value;
-          }
-          if (errors.image?.hasError) {
-            runValidationTasks("image", value);
-          }
-          setImage(value);
-        }}
-        onBlur={() => runValidationTasks("image", image)}
+      <Field
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
-        {...getOverrideProps(overrides, "image")}
-      ></TextField>
-      <TextField
-        label="Author"
+        label={"Image"}
         isRequired={false}
         isReadOnly={false}
-        value={author}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              image,
-              author: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.author ?? value;
-          }
-          if (errors.author?.hasError) {
-            runValidationTasks("author", value);
-          }
-          setAuthor(value);
-        }}
-        onBlur={() => runValidationTasks("author", author)}
-        errorMessage={errors.author?.errorMessage}
-        hasError={errors.author?.hasError}
-        {...getOverrideProps(overrides, "author")}
-      ></TextField>
+      >
+        <StorageManager
+          onUploadSuccess={({ key }) => {
+            setImage((prev) => {
+              let value = key;
+              if (onChange) {
+                const modelFields = {
+                  name,
+                  description,
+                  image: value,
+                };
+                const result = onChange(modelFields);
+                value = result?.image ?? value;
+              }
+              return value;
+            });
+          }}
+          onFileRemove={({ key }) => {
+            setImage((prev) => {
+              let value = initialValues?.image;
+              if (onChange) {
+                const modelFields = {
+                  name,
+                  description,
+                  image: value,
+                };
+                const result = onChange(modelFields);
+                value = result?.image ?? value;
+              }
+              return value;
+            });
+          }}
+          processFile={processFile}
+          accessLevel={"public"}
+          acceptedFileTypes={[]}
+          isResumable={false}
+          showThumbnails={true}
+          maxFileCount={1}
+          {...getOverrideProps(overrides, "image")}
+        ></StorageManager>
+      </Field>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

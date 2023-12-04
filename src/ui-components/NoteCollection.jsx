@@ -1,10 +1,3 @@
-/***************************************************************************
- * The contents of this file were generated with Amplify Studio.           *
- * Please refrain from making any modifications to this file.              *
- * Any changes to this file will be overwritten when running amplify pull. *
- **************************************************************************/
-
-/* eslint-disable */
 import * as React from "react";
 import { listNotes } from "../graphql/queries";
 import NoteCard from "./NoteCard";
@@ -64,8 +57,10 @@ export default function NoteCollection(props) {
        await Promise.all(
               notesFromAPI.map(async (note) => {
                 if (note.image) {
-                  const url = await Storage.get(note.name);
+                  const url = await Storage.get(note.image);
+                  //console.log(note.image + "  " + note.name);
                   note.image = url;
+                  //console.log(url);
                 }
                 return note;
               })

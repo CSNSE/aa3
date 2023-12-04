@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { FlexProps, IconProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
+import { FlexProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,9 +22,8 @@ export declare type NavOverridesProps = {
     image?: PrimitiveOverrideProps<ImageProps>;
     "Frame 321"?: PrimitiveOverrideProps<FlexProps>;
     text?: PrimitiveOverrideProps<TextProps>;
-    Frame?: PrimitiveOverrideProps<ViewProps>;
-    Vector407260?: PrimitiveOverrideProps<IconProps>;
-    Vector407261?: PrimitiveOverrideProps<IconProps>;
+    Frame?: PrimitiveOverrideProps<FlexProps>;
+    "\u2795"?: PrimitiveOverrideProps<TextProps>;
 } & EscapeHatchProps;
 export declare type NavProps = React.PropsWithChildren<Partial<FlexProps> & {
     overrides?: NavOverridesProps | undefined | null;

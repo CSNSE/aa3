@@ -7,9 +7,12 @@
 /* eslint-disable */
 import * as React from "react";
 import { useState } from "react";
+import { Auth } from "@aws-amplify/auth";
 import { API } from "aws-amplify";
+import { Field } from "@aws-amplify/ui-react/internal";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
 import { createNote } from "../graphql/mutations";
-import { getOverrideProps, useNavigateAction } from "./utils";
+import { getOverrideProps, useNavigateAction, processFile } from "./utils";
 import {
   Button,
   Divider,
@@ -30,13 +33,21 @@ export default function UINewNote(props) {
     textFieldFourZeroFourSevenTwoFourTwoThreeValue,
     setTextFieldFourZeroFourSevenTwoFourTwoThreeValue,
   ] = useState("");
+  const [
+    imageName,
+    setImageName,
+  ] = useState("");
   const buttonOnClick = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    console.log("hey there!  "+ user.attributes.email)
     await API.graphql({
       query: createNote.replaceAll("__typename", ""),
       variables: {
         input: {
           name: textFieldFourZeroFourSevenTwoFourTwoTwoValue,
           description: textFieldFourZeroFourSevenTwoFourTwoThreeValue,
+          image: imageName,
+          author: user.attributes.email
         },
       },
     });
@@ -228,27 +239,27 @@ export default function UINewNote(props) {
             }}
             {...getOverrideProps(overrides, "TextField40472423")}
           ></TextField>
-          <Text
-            fontFamily="Inter"
-            fontSize="16px"
-            fontWeight="400"
-            color="rgba(13,26,38,1)"
-            lineHeight="20px"
-            textAlign="left"
-            display="block"
-            direction="column"
-            justifyContent="unset"
-            width="unset"
-            height="unset"
-            gap="unset"
-            alignItems="unset"
-            shrink="0"
-            position="relative"
-            padding="0px 0px 0px 0px"
-            whiteSpace="pre-wrap"
-            children={note?.updatedAt}
-            {...getOverrideProps(overrides, "image41461946")}
-          ></Text>
+ <Field
+
+        label={"Image"}
+        isRequired={false}
+        isReadOnly={false}
+      >
+        <StorageManager
+          onUploadSuccess={({ key }) => {
+            setImageName(
+              key
+            );
+          }}
+          processFile={processFile}
+          accessLevel={"public"}
+          acceptedFileTypes={[]}
+          isResumable={false}
+          showThumbnails={true}
+          maxFileCount={1}
+          {...getOverrideProps(overrides, "image")}
+        ></StorageManager>
+      </Field>
         </Flex>
         <Divider
           width="unset"

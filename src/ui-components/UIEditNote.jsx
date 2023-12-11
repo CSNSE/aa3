@@ -9,8 +9,10 @@ import * as React from "react";
 import { useAuth } from "@aws-amplify/ui-react/internal";
 import { useEffect, useState } from "react";
 import { API } from "aws-amplify";
+import { Field } from "@aws-amplify/ui-react/internal";
+import { StorageManager } from "@aws-amplify/ui-react-storage";
 import { updateNote } from "../graphql/mutations";
-import { getOverrideProps, useNavigateAction } from "./utils";
+import { getOverrideProps, useNavigateAction, processFile } from "./utils";
 import {
   Button,
   Divider,
@@ -36,14 +38,31 @@ export default function UIEditNote(props) {
     textFieldFourZeroFourSevenTwoFourSixThreeValue,
     setTextFieldFourZeroFourSevenTwoFourSixThreeValue,
   ] = useState("");
+  const [
+    newImage,
+    setImageName,
+  ] = useState("");
   const buttonOnClick = async () => {
+    if(newImage)
     await API.graphql({
       query: updateNote.replaceAll("__typename", ""),
       variables: {
         input: {
           name: textFieldFourZeroFourSevenTwoFourSixOneValue,
           description: textFieldFourZeroFourSevenTwoFourSixTwoValue,
-          image: textFieldFourZeroFourSevenTwoFourSixThreeValue,
+          author: authAttributes["email"],
+          image: newImage,
+          id: nx?.id,
+        },
+      },
+    });
+    else
+    await API.graphql({
+      query: updateNote.replaceAll("__typename", ""),
+      variables: {
+        input: {
+          name: textFieldFourZeroFourSevenTwoFourSixOneValue,
+          description: textFieldFourZeroFourSevenTwoFourSixTwoValue,
           author: authAttributes["email"],
           id: nx?.id,
         },
@@ -73,7 +92,7 @@ export default function UIEditNote(props) {
       nx !== undefined &&
       nx?.image !== undefined
     )
-      setTextFieldFourZeroFourSevenTwoFourSixThreeValue(nx?.image);
+      setTextFieldFourZeroFourSevenTwoFourSixThreeValue(nx?.filename);
   }, [nx]);
   return (
     <Flex
@@ -189,7 +208,7 @@ export default function UIEditNote(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             whiteSpace="pre-wrap"
-            children="db id"
+            children={nx?.id}
             {...getOverrideProps(overrides, "db id")}
           ></Text>
         </Flex>
@@ -219,6 +238,7 @@ export default function UIEditNote(props) {
             position="relative"
             padding="0px 0px 0px 0px"
             objectFit="cover"
+            src={nx?.image}
             {...getOverrideProps(overrides, "image")}
           ></Image>
         </Flex>
@@ -273,25 +293,27 @@ export default function UIEditNote(props) {
             }}
             {...getOverrideProps(overrides, "TextField40472462")}
           ></TextField>
-          <TextField
-            width="unset"
-            height="unset"
-            label="image"
-            placeholder="png"
-            shrink="0"
-            alignSelf="stretch"
-            size="default"
-            isDisabled={false}
-            labelHidden={false}
-            variation="default"
-            value={textFieldFourZeroFourSevenTwoFourSixThreeValue}
-            onChange={(event) => {
-              setTextFieldFourZeroFourSevenTwoFourSixThreeValue(
-                event.target.value
-              );
-            }}
-            {...getOverrideProps(overrides, "TextField40472463")}
-          ></TextField>
+ <Field
+
+label={"Image"}
+isRequired={false}
+isReadOnly={false}
+>
+<StorageManager
+  onUploadSuccess={({ key }) => {
+    setImageName(
+      key
+    );
+  }}
+  processFile={processFile}
+  accessLevel={"public"}
+  acceptedFileTypes={[]}
+  isResumable={false}
+  showThumbnails={true}
+  maxFileCount={1}
+  {...getOverrideProps(overrides, "image")}
+></StorageManager>
+</Field>
         </Flex>
         <Divider
           width="unset"

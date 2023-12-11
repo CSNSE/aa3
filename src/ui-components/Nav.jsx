@@ -10,6 +10,7 @@ import { getOverrideProps, useNavigateAction } from "./utils";
 import { Flex, Image, Text } from "@aws-amplify/ui-react";
 export default function Nav(props) {
   const { overrides, ...rest } = props;
+  const frameThreeTwoOneOnClick = useNavigateAction({ type: "url", url: "/" });
   const frameOnClick = useNavigateAction({ type: "url", url: "/new" });
   const OnClick = useNavigateAction({ type: "url", url: "/" });
   return (
@@ -50,6 +51,9 @@ export default function Nav(props) {
         shrink="0"
         position="relative"
         padding="0px 0px 0px 0px"
+        onClick={() => {
+          frameThreeTwoOneOnClick();
+        }}
         {...getOverrideProps(overrides, "Frame 321")}
       >
         <Text

@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { FlexProps, ImageProps, TextProps } from "@aws-amplify/ui-react";
+import { FlexProps, ImageProps, TextProps, ViewProps } from "@aws-amplify/ui-react";
 import { MyIconProps } from "./MyIcon";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -20,13 +20,16 @@ export declare type Variant = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NoteCardOverridesProps = {
     NoteCard?: PrimitiveOverrideProps<FlexProps>;
+    "Frame 322"?: PrimitiveOverrideProps<ViewProps>;
     image?: PrimitiveOverrideProps<ImageProps>;
+    Frame4191652?: PrimitiveOverrideProps<FlexProps>;
+    MyIcon4191660?: MyIconProps;
+    Frame413560?: PrimitiveOverrideProps<FlexProps>;
+    MyIcon413549?: MyIconProps;
     "Card Area"?: PrimitiveOverrideProps<FlexProps>;
     "Text Group"?: PrimitiveOverrideProps<FlexProps>;
     "site name"?: PrimitiveOverrideProps<TextProps>;
     author?: PrimitiveOverrideProps<TextProps>;
-    Frame?: PrimitiveOverrideProps<FlexProps>;
-    MyIcon?: MyIconProps;
 } & EscapeHatchProps;
 export declare type NoteCardProps = React.PropsWithChildren<Partial<FlexProps> & {
     note?: any;

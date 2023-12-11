@@ -7,21 +7,21 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps, useNavigateAction } from "./utils";
-import { Auth } from "@aws-amplify/auth";
 import { API } from "aws-amplify";
 import { deleteNote } from "../graphql/mutations";
-import { Flex, Image, Text } from "@aws-amplify/ui-react";
+import { Flex, Image, Text, View } from "@aws-amplify/ui-react";
 import MyIcon from "./MyIcon";
 export default function NoteCard(props) {
   const { note, overrides, ...rest } = props;
-  const sitenameOnClick = useNavigateAction({
-    target: "_blank",
+  const imageOnClick = useNavigateAction({
     type: "url",
-    url: note?.description,
+    url: `${"/edit/"}${note?.id}`,
   });
-  const frameOnClick = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    if(user.attributes.email===note.author){
+  const frameFourOneNineOneSixFiveTwoOnClick = useNavigateAction({
+    type: "url",
+    url: `${"/edit/"}${note?.id}`,
+  });
+  const frameFourOneThreeFiveSixZeroOnClick = async () => {
     await API.graphql({
       query: deleteNote.replaceAll("__typename", ""),
       variables: {
@@ -30,10 +30,16 @@ export default function NoteCard(props) {
         },
       },
     });
-    frameOnMouseUp(); //MrH
-  }
   };
-  const frameOnMouseUp = useNavigateAction({ type: "url", url: "/" });
+  const frameFourOneThreeFiveSixZeroOnMouseUp = useNavigateAction({
+    type: "url",
+    url: "/",
+  });
+  const sitenameOnClick = useNavigateAction({
+    target: "_blank",
+    type: "url",
+    url: note?.description,
+  });
   return (
     <Flex
       gap="0"
@@ -48,21 +54,104 @@ export default function NoteCard(props) {
       {...getOverrideProps(overrides, "NoteCard")}
       {...rest}
     >
-      <Image
-        width="unset"
+      <View
+        width="320px"
         height="160px"
         display="block"
         gap="unset"
         alignItems="unset"
         justifyContent="unset"
         shrink="0"
-        alignSelf="stretch"
         position="relative"
         padding="0px 0px 0px 0px"
-        objectFit="cover"
-        src={note?.image}
-        {...getOverrideProps(overrides, "image")}
-      ></Image>
+        {...getOverrideProps(overrides, "Frame 322")}
+      >
+        <Image
+          width="320px"
+          height="160px"
+          display="block"
+          gap="unset"
+          alignItems="unset"
+          justifyContent="unset"
+          position="absolute"
+          top="0px"
+          left="0px"
+          padding="0px 0px 0px 0px"
+          objectFit="cover"
+          src={note?.image}
+          onClick={() => {
+            imageOnClick();
+          }}
+          {...getOverrideProps(overrides, "image")}
+        ></Image>
+        <Flex
+          gap="0"
+          direction="row"
+          width="unset"
+          height="unset"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          overflow="hidden"
+          position="absolute"
+          top="131px"
+          left="290px"
+          padding="0px 0px 0px 0px"
+          onClick={() => {
+            frameFourOneNineOneSixFiveTwoOnClick();
+          }}
+          {...getOverrideProps(overrides, "Frame4191652")}
+        >
+          <MyIcon
+            width="24px"
+            height="24px"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            overflow="hidden"
+            shrink="0"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            type="edit"
+            {...getOverrideProps(overrides, "MyIcon4191660")}
+          ></MyIcon>
+        </Flex>
+        <Flex
+          gap="0"
+          direction="row"
+          width="unset"
+          height="24px"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          overflow="hidden"
+          position="absolute"
+          top="131px"
+          left="4px"
+          padding="0px 0px 0px 0px"
+          onClick={() => {
+            frameFourOneThreeFiveSixZeroOnClick();
+          }}
+          onMouseUp={() => {
+            frameFourOneThreeFiveSixZeroOnMouseUp();
+          }}
+          {...getOverrideProps(overrides, "Frame413560")}
+        >
+          <MyIcon
+            width="24px"
+            height="24px"
+            display="block"
+            gap="unset"
+            alignItems="unset"
+            justifyContent="unset"
+            overflow="hidden"
+            shrink="0"
+            position="relative"
+            padding="0px 0px 0px 0px"
+            type="delete"
+            {...getOverrideProps(overrides, "MyIcon413549")}
+          ></MyIcon>
+        </Flex>
+      </View>
       <Flex
         gap="16px"
         direction="column"
@@ -136,40 +225,6 @@ export default function NoteCard(props) {
             children={note?.author}
             {...getOverrideProps(overrides, "author")}
           ></Text>
-        </Flex>
-        <Flex
-          gap="0"
-          direction="row"
-          width="unset"
-          height="24px"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          overflow="hidden"
-          shrink="0"
-          position="relative"
-          padding="0px 0px 0px 0px"
-          onClick={() => {
-            frameOnClick();
-          }}
-          // onMouseUp={() => {
-          //   frameOnMouseUp();
-          // }}
-          {...getOverrideProps(overrides, "Frame")}
-        >
-          <MyIcon
-            width="24px"
-            height="24px"
-            display="block"
-            gap="unset"
-            alignItems="unset"
-            justifyContent="unset"
-            overflow="hidden"
-            shrink="0"
-            position="relative"
-            padding="0px 0px 0px 0px"
-            type="delete"
-            {...getOverrideProps(overrides, "MyIcon")}
-          ></MyIcon>
         </Flex>
       </Flex>
     </Flex>

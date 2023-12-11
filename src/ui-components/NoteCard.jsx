@@ -7,6 +7,7 @@
 /* eslint-disable */
 import * as React from "react";
 import { getOverrideProps, useNavigateAction } from "./utils";
+import { Auth } from "@aws-amplify/auth";
 import { API } from "aws-amplify";
 import { deleteNote } from "../graphql/mutations";
 import { Flex, Image, Text, View } from "@aws-amplify/ui-react";
@@ -22,6 +23,8 @@ export default function NoteCard(props) {
     url: `${"/edit/"}${note?.id}`,
   });
   const frameFourOneThreeFiveSixZeroOnClick = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    if(user.attributes.email=note.author){
     await API.graphql({
       query: deleteNote.replaceAll("__typename", ""),
       variables: {
@@ -30,6 +33,8 @@ export default function NoteCard(props) {
         },
       },
     });
+    frameFourOneThreeFiveSixZeroOnMouseUp(); //MrH
+  }
   };
   const frameFourOneThreeFiveSixZeroOnMouseUp = useNavigateAction({
     type: "url",
@@ -131,9 +136,9 @@ export default function NoteCard(props) {
           onClick={() => {
             frameFourOneThreeFiveSixZeroOnClick();
           }}
-          onMouseUp={() => {
-            frameFourOneThreeFiveSixZeroOnMouseUp();
-          }}
+          // onMouseUp={() => {
+          //   frameFourOneThreeFiveSixZeroOnMouseUp();
+          // }}
           {...getOverrideProps(overrides, "Frame413560")}
         >
           <MyIcon

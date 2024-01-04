@@ -58,19 +58,19 @@ export default function NoteCollection(props) {
       const notesFromAPI = result.items
       const user = await Auth.currentAuthenticatedUser();
        await Promise.all(
-              notesFromAPI.map(async (note) => {
-                if (note.image) {
-                  const url = await Storage.get(note.image);
-                  //console.log(note.image + "  " + note.name);
-                  console.log(user.attributes.email + "  " + note.author);
-                  note.image = url;
-                  //console.log(url);
-                }
-                return note;
-              })
-            );
+        notesFromAPI.map(async (note) => {
+          if (note.image) {
+            const url = await Storage.get(note.image);
+            console.log(note.image + "  " + note.name);
+            //console.log(user.attributes.email + "  " + note.author);
+            note.image = url;
+            console.log(note.image);
+          }
+          return note;
+        })
+        );
     }
-    
+
     const cacheSlice = isPaginated
       ? newCache.slice((page - 1) * pageSize, page * pageSize)
       : newCache;

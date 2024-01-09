@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "aa341435d7e": {}
+        "aa341435d7e": {},
+        "userPoolGroups": {}
       },
       "api": {
         "aa3": {}

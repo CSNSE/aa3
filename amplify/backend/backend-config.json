@@ -4,15 +4,10 @@
       "dependsOn": [],
       "output": {
         "authConfig": {
-          "additionalAuthenticationProviders": [
-            {
-              "authenticationType": "AWS_IAM"
-            }
-          ],
+          "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
+              "apiKeyExpirationDays": 7
             },
             "authenticationType": "API_KEY"
           }
@@ -23,7 +18,7 @@
     }
   },
   "auth": {
-    "aa338a3a12a": {
+    "aa341435d7e": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -39,7 +34,9 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "verificationMechanisms": [
           "EMAIL"
         ]
@@ -49,7 +46,7 @@
     }
   },
   "storage": {
-    "aa3store": {
+    "aa3imgages": {
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"

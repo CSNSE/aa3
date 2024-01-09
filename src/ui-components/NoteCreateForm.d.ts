@@ -6,7 +6,6 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { StorageManagerProps } from "@aws-amplify/ui-react-storage";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -26,18 +25,21 @@ export declare type NoteCreateFormInputValues = {
     name?: string;
     description?: string;
     image?: string;
+    author?: string;
 };
 export declare type NoteCreateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     image?: ValidationFunction<string>;
+    author?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NoteCreateFormOverridesProps = {
     NoteCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    image?: PrimitiveOverrideProps<StorageManagerProps>;
+    image?: PrimitiveOverrideProps<TextFieldProps>;
+    author?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type NoteCreateFormProps = React.PropsWithChildren<{
     overrides?: NoteCreateFormOverridesProps | undefined | null;

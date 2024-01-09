@@ -7,7 +7,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "auth": {
-    "aa338a3a12a": {
+    "aa341435d7e": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -18,7 +18,7 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "storage": {
-    "aa3store": {
+    "aa3imgages": {
       "BucketName": "string",
       "Region": "string"
     }

@@ -12,15 +12,14 @@
       "AmplifyAppId": "dadp4d5z22gio"
     },
     "categories": {
-      "auth": {
-        "aa341435d7e": {},
-        "userPoolGroups": {}
-      },
       "api": {
         "aa3": {}
       },
       "storage": {
         "aa3imgages": {}
+      },
+      "auth": {
+        "aa378d13568": {}
       }
     }
   }

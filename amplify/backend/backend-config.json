@@ -18,7 +18,7 @@
     }
   },
   "auth": {
-    "aa341435d7e": {
+    "aa378d13568": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -43,22 +43,6 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
-    },
-    "userPoolGroups": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID",
-            "IdentityPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "aa341435d7e"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito-UserPool-Groups"
     }
   },
   "storage": {

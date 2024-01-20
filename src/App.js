@@ -14,7 +14,7 @@ class App extends Component {
 <Routes>
 <Route exact path='/' element={<div><Nav/><NoteCollection/></div>} />
 <Route exact path='/new' element= {<NewNote/>} />
-<Route exact path='/new33' element= {<NewNote/>} />
+<Route exact path='/new34' element= {<NewNote/>} />
 <Route exact path='/cr' element= {<NoteCreateForm/>} />
 <Route exact path='/edit/:cid' element= {<EditNote/>} />
 </Routes>
